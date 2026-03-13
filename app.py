@@ -71,36 +71,63 @@ def handle_question(question):
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Chat with multiple PDFs",page_icon=":books:")
-    st.write(css,unsafe_allow_html=True)
-    if "conversation" not in st.session_state:
-        st.session_state.conversation=None
-
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history=None
+    st.set_page_config(page_title="AskPDF - Intelligent Document Chat", page_icon=":books:", layout="wide")
+    st.write(css, unsafe_allow_html=True)
     
-    st.header("Chat with multiple PDFs :books:")
-    question=st.text_input("Ask question from your document:")
-    if question:
-        handle_question(question)
+    if "conversation" not in st.session_state:
+        st.session_state.conversation = None
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = None
+    
+    # Sidebar layout
     with st.sidebar:
-        st.subheader("Your documents")
-        docs=st.file_uploader("Upload your PDF here and click on 'Process'",accept_multiple_files=True)
-        if st.button("Process"):
-            with st.spinner("Processing"):
-                
-                #get the pdf
-                raw_text=get_pdf_text(docs)
-                
-                #get the text chunks
-                text_chunks=get_chunks(raw_text)
-                
-                #create vectorstore
-                vectorstore=get_vectorstore(text_chunks)
-                
-                #create conversation chain
-                st.session_state.conversation=get_conversationchain(vectorstore)
+        st.title("📚 AskPDF")
+        st.markdown("---")
+        st.subheader("Your Documents")
+        docs = st.file_uploader(
+            "Upload PDFs and click 'Process'", 
+            accept_multiple_files=True,
+            help="You can upload multiple PDF files to chat with them simultaneously."
+        )
+        
+        if st.button("Process Documents"):
+            if not docs:
+                st.warning("Please upload at least one PDF file.")
+            else:
+                with st.spinner("🚀 Processing your documents..."):
+                    try:
+                        # get the pdf
+                        raw_text = get_pdf_text(docs)
+                        # get the text chunks
+                        text_chunks = get_chunks(raw_text)
+                        # create vectorstore
+                        vectorstore = get_vectorstore(text_chunks)
+                        # create conversation chain
+                        st.session_state.conversation = get_conversationchain(vectorstore)
+                        st.success("Done! You can now ask questions.")
+                    except Exception as e:
+                        st.error(f"An error occurred: {e}")
 
+    # Main area layout
+    col1, col2, col3 = st.columns([1, 4, 1])
+    with col2:
+        st.title("Chat with Multiple PDFs 📚")
+        st.markdown("##### *Extract insights and answers from your documents instantly.*")
+        st.write("---")
+        
+        question = st.text_input("Ask a question about your documents:", placeholder="e.g., What is the main conclusion of the study?")
+        
+        if question:
+            if st.session_state.conversation:
+                handle_question(question)
+            else:
+                st.info("Please upload and process your documents first using the sidebar.")
+
+        # Display chat history in a centered container if it exists
+        if st.session_state.chat_history:
+             # handle_question already writes to the main area, 
+             # but we want to make sure the flow feels natural.
+             pass
 
 if __name__ == '__main__':
     main()
