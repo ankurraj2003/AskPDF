@@ -2,7 +2,7 @@
 
 AskPDF is a state-of-the-art AI application that enables you to chat with multiple PDF documents simultaneously. Using advanced Retrieval-Augmented Generation (RAG), it extracts meaningful insights and answers from your files in seconds.
 
-![AskPDF Interface](C:\Users\rajan\.gemini\antigravity\brain\25ab2134-d9f9-4e61-9e52-8d062f8318cc\finalized_ui_glow_effect_1773409712748.png)
+![AskPDF Interface](https://github.com/ankurraj2003/AskPDF/blob/main/demo.png?raw=true)
 
 ## 🚀 Features
 
