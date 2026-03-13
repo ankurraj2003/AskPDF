@@ -14,7 +14,8 @@ colorama==0.4.6
 ctransformers==0.2.27
 dataclasses-json==0.6.2
 distro==1.8.0
-faiss-cpu==1.7.4
+faiss-cpu>=1.8.0
+pysqlite3-binary
 filelock==3.13.1
 frozenlist==1.4.0
 fsspec==2023.10.0
