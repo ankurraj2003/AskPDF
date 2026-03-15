@@ -28,7 +28,7 @@ AskPDF is a state-of-the-art AI application that enables you to chat with multip
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/AskPDF.git
+   git clone https://github.com/ankurraj2003/AskPDF.git
    cd AskPDF
    ```
 
